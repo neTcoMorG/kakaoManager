@@ -10,9 +10,10 @@ import lombok.Data;
 @Entity
 public class User {
 
-    public User(String accessToken, String refreshToken, String nickname, String email, String profileImageUrl) {
+    public User(String accessToken, String refreshToken, String uuid, String nickname, String email, String profileImageUrl) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
+        this.uuid = uuid;
         this.nickname = nickname;
         this.email = email;
         this.profileImageUrl = profileImageUrl;
@@ -21,6 +22,7 @@ public class User {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
     private String accessToken;
     private String refreshToken;
+    private String uuid;
     private String nickname;
     private String email;
     private String profileImageUrl;
