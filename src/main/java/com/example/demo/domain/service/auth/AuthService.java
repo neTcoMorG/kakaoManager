@@ -18,12 +18,6 @@ public class AuthService {
     @Value("${oauth.kakao.secret_id}") private String secret;
     @Value("${oauth.kakao.redirect_url}") private String redirectUrl;
 
-    private WebClient webClient = WebClient.builder()
-            .baseUrl("https://kauth.kakao.com")
-            .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-            .build();
-
-
     /**
      * 카카오톡 oAuth 로그인 서비스
      * <p>
@@ -48,6 +42,11 @@ public class AuthService {
      * @return : access_token
      */
     private OauthToken getToken (String code) {
+        WebClient webClient = WebClient.builder()
+                .baseUrl("https://kauth.kakao.com")
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .build();
+
         return webClient.post()
                 .uri("/oauth/token")
                 .bodyValue(new TokenRequestValue("authorization_code", clientId, redirectUrl, code))
