@@ -1,4 +1,4 @@
-package com.example.demo.config;
+package com.example.demo.web.config;
 
 import com.example.demo.web.resolver.UserArgumentResolver;
 import lombok.RequiredArgsConstructor;
