@@ -3,19 +3,13 @@ package com.example.demo.domain.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Entity
 public class Friend {
-
-    protected Friend() {}
-    public Friend(User user, String uuid, String profileImageUrl, String nickname) {
-        this.user = user;
-        this.uuid = uuid;
-        this.profileImageUrl = profileImageUrl;
-        this.nickname = nickname;
-    }
-
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long id;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
@@ -24,4 +18,15 @@ public class Friend {
     private String uuid;
     private String profileImageUrl;
     private String nickname;
+
+    @OneToMany(mappedBy = "friend")
+    private List<GroupMember> groupMemberList;
+
+    protected Friend() {}
+    public Friend(User user, String uuid, String profileImageUrl, String nickname) {
+        this.user = user;
+        this.uuid = uuid;
+        this.profileImageUrl = profileImageUrl;
+        this.nickname = nickname;
+    }
 }
