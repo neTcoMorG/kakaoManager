@@ -10,6 +10,13 @@ import java.util.List;
 @Table(name = "CUSTOM_GROUP")
 public class Group {
 
+  protected Group() {}
+
+  public Group(User user, String name) {
+    this.user = user;
+    this.name = name;
+  }
+
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long groupId;
@@ -24,9 +31,6 @@ public class Group {
 
   @Column(name = "GROUP_NAME")
   private String name;
-
-  @Column(name = "GROUP_UUID")
-  private String uuid;
 
   @OneToMany(mappedBy = "group")
   private List<GroupMember> groupMemberList;
