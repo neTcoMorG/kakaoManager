@@ -9,6 +9,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+import reactor.core.publisher.Mono;
 
 @Service
 public class KakaoAuthService {
@@ -43,6 +44,7 @@ public class KakaoAuthService {
                 .uri("/oauth/token")
                 .body(BodyInserters.fromFormData(params))
                 .retrieve()
+                .onStatus(status -> status.is4xxClientError(), error -> Mono.error(RuntimeException::new))
                 .bodyToMono(OauthToken.class)
                 .block();
     }
