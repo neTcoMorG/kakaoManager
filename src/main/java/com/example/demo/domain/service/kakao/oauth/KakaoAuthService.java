@@ -27,7 +27,7 @@ public class KakaoAuthService {
      * @param code :  Resource owner 로 부터 받은 code
      * @return : access_token
      */
-    public OauthToken getToken(String code) throws Exception {
+    public OauthToken getToken(String code) {
         WebClient webClient = WebClient.builder()
                 .baseUrl("https://kauth.kakao.com")
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8")
@@ -55,7 +55,7 @@ public class KakaoAuthService {
      * @param accessToken : 카카오 엑세스 토큰
      * @return UserProfile : 유저 정보가 담긴 객체
      */
-    public UserProfile getProfile(String accessToken) throws Exception {
+    public UserProfile getProfile(String accessToken) {
         WebClient webClient = WebClient.builder()
                 .baseUrl("https://kapi.kakao.com")
                 .build();

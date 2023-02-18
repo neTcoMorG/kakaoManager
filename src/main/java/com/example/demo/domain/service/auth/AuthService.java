@@ -26,7 +26,7 @@ public class AuthService {
      * <p>
      *  카카오 oAuth2 API를 이용해 로그인/회원가입을 처리   
      * </p>
-     * 
+     *
      * @author : joyoungjun
      * @param code : Resource owner 로 부터 받은 code
      * @return 유저 엔티티
@@ -36,14 +36,8 @@ public class AuthService {
         OauthToken token = null;
         UserProfile userProfile = null;
 
-        try {
-            token = kakaoService.getAuthService().getToken(code);
-            userProfile = kakaoService.getAuthService().getProfile(token.getAccess_token());
-        }
-        catch (Exception e) {
-            log.info("EXCEPTION");
-            return Optional.empty();
-        }
+        token = kakaoService.getAuthService().getToken(code);
+        userProfile = kakaoService.getAuthService().getProfile(token.getAccess_token());
 
         Optional<User> userOptional = userRepository.findByUuid(userProfile.getId());
         if (userOptional.isPresent()) {

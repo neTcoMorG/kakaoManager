@@ -18,9 +18,14 @@ public class GroupApiController {
 
     private final GroupService groupService;
 
+    /**
+     * getGroupList : GET /group 으로 요청이 들어왔을 시 현재 사용자가 만든 모든 그룹을 정보를 반환
+     * @param user
+     * @return 그룹정보
+     */
     @GetMapping
     public HttpEntity<?> getGroupList(User user) {
-        return ResponseEntity.ok("Hello, world");
+        return ResponseEntity.ok(user.getNickname());
     }
 
     @PostMapping
