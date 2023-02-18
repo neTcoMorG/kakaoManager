@@ -2,9 +2,9 @@ package com.example.demo.domain.service.auth;
 
 import com.example.demo.domain.entity.User;
 import com.example.demo.domain.repository.UserRepository;
-import com.example.demo.domain.service.KakaoService;
-import com.example.demo.domain.service.auth.json.OauthToken;
-import com.example.demo.domain.service.auth.json.UserProfile;
+import com.example.demo.domain.service.kakao.KakaoService;
+import com.example.demo.domain.service.kakao.oauth.json.OauthToken;
+import com.example.demo.domain.service.kakao.oauth.json.UserProfile;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,8 +37,8 @@ public class AuthService {
         UserProfile userProfile = null;
 
         try {
-            token = kakaoService.getToken(code);
-            userProfile = kakaoService.getProfile(token.getAccess_token());
+            token = kakaoService.getAuthService().getToken(code);
+            userProfile = kakaoService.getAuthService().getProfile(token.getAccess_token());
         }
         catch (Exception e) {
             log.info("EXCEPTION");

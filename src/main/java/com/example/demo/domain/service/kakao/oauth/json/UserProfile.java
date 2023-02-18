@@ -1,6 +1,5 @@
-package com.example.demo.domain.service.auth.json;
+package com.example.demo.domain.service.kakao.oauth.json;
 
-import com.example.demo.domain.service.auth.json.KakaoAccount;
 import lombok.Data;
 
 @Data

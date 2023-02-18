@@ -1,7 +1,7 @@
-package com.example.demo.domain.service;
+package com.example.demo.domain.service.kakao.oauth;
 
-import com.example.demo.domain.service.auth.json.OauthToken;
-import com.example.demo.domain.service.auth.json.UserProfile;
+import com.example.demo.domain.service.kakao.oauth.json.OauthToken;
+import com.example.demo.domain.service.kakao.oauth.json.UserProfile;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -11,7 +11,7 @@ import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Service
-public class KakaoService {
+public class KakaoAuthService {
 
     @Value("${oauth.kakao.client_id}") private String clientId;
     @Value("${oauth.kakao.secret_id}") private String secret;
@@ -26,7 +26,7 @@ public class KakaoService {
      * @param code :  Resource owner 로 부터 받은 code
      * @return : access_token
      */
-    public OauthToken getToken (String code) throws Exception {
+    public OauthToken getToken(String code) throws Exception {
         WebClient webClient = WebClient.builder()
                 .baseUrl("https://kauth.kakao.com")
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8")

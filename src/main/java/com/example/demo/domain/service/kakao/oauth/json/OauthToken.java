@@ -1,4 +1,4 @@
-package com.example.demo.domain.service.auth.json;
+package com.example.demo.domain.service.kakao.oauth.json;
 
 import lombok.Data;
 
