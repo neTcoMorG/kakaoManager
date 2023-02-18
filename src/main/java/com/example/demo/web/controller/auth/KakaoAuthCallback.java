@@ -18,7 +18,7 @@ public class KakaoAuthCallback {
 
     @GetMapping("/auth/kakao")
     public HttpEntity<?> callback (@RequestParam String code) {
-        log.info(authService.login(code));
+        log.info(authService.login(code).getKakao_account().getEmail());
         return ResponseEntity.ok("Hello,world");
     }
 }

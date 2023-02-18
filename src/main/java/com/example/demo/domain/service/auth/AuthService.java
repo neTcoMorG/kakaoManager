@@ -1,5 +1,7 @@
 package com.example.demo.domain.service.auth;
 
+import com.example.demo.domain.repository.UserRepository;
+import com.example.demo.domain.service.auth.json.UserProfile;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,6 +23,8 @@ public class AuthService {
     @Value("${oauth.kakao.secret_id}") private String secret;
     @Value("${oauth.kakao.redirect_url}") private String redirectUrl;
 
+    private final UserRepository userRepository;
+
     /**
      * 카카오톡 oAuth 로그인 서비스
      * <p>
@@ -29,10 +33,10 @@ public class AuthService {
      * 
      * @author : joyoungjun
      * @param code : Resource owner 로 부터 받은 code
-     * @return jwt 토큰
+     * @return 유저 엔티티
      */
-    public String login (String code) {
-        return getToken(code).getAccess_token();
+    public UserProfile login (String code) {
+        return getProfile(getToken(code).getAccess_token());
     }
 
     /**
@@ -59,10 +63,28 @@ public class AuthService {
 
         return webClient.post()
                 .uri("/oauth/token")
-                .header("")
                 .body(BodyInserters.fromFormData(params))
                 .retrieve()
                 .bodyToMono(OauthToken.class)
+                .block();
+    }
+
+    /**
+     * getProfile : 카카오 사용자 정보 가져오는 메소드
+     * 
+     * @param accessToken : 카카오 엑세스 토큰
+     * @return UserProfile : 유저 정보가 담긴 객체
+     */
+    private UserProfile getProfile (String accessToken) {
+        WebClient webClient = WebClient.builder()
+                .baseUrl("https://kapi.kakao.com")
+                .build();
+
+        return webClient.post()
+                .uri("/v2/user/me")
+                .header("Authorization", "Bearer " + accessToken)
+                .retrieve()
+                .bodyToMono(UserProfile.class)
                 .block();
     }
 
