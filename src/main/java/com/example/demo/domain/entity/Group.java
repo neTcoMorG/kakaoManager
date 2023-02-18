@@ -12,11 +12,7 @@ public class Group {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
     private User user;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "FRIEND_ID")
-    private Friend friend;
-
     @Column(name = "GROUP_NAME")  private String name;
-    @Column(name = "GROUP_UUID") private String uuid;
+
+
 }

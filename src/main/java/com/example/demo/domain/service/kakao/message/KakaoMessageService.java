@@ -1,5 +1,6 @@
 package com.example.demo.domain.service.kakao.message;
 
+import com.example.demo.domain.entity.Friend;
 import com.example.demo.domain.entity.User;
 import com.example.demo.domain.service.kakao.message.json.SendMessageResponse;
 import org.springframework.http.HttpHeaders;
@@ -14,7 +15,7 @@ import java.util.List;
 @Service
 public class KakaoMessageService {
 
-    public void sendMessage (User who, List<String> receiver) throws RuntimeException {
+    public void sendMessage (User who, List<Friend> receiver) throws RuntimeException {
         WebClient webClient = WebClient.builder()
                 .baseUrl("https://kapi.kakao.com/v1/api/talk/friends/message/default/send")
                 .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_FORM_URLENCODED_VALUE)

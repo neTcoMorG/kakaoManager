@@ -20,7 +20,7 @@ public class Friend {
     @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;      // 친구의 주인
-
+    
     private String uuid;
     private String profileImageUrl;
     private String nickname;
