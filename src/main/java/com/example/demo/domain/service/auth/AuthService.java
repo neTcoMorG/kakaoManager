@@ -7,6 +7,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 @Slf4j
@@ -44,34 +47,23 @@ public class AuthService {
     private OauthToken getToken (String code) {
         WebClient webClient = WebClient.builder()
                 .baseUrl("https://kauth.kakao.com")
-                .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+                .defaultHeader(HttpHeaders.CONTENT_TYPE, "application/x-www-form-urlencoded;charset=utf-8")
                 .build();
+
+        MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+        params.add("grant_type", "authorization_code");
+        params.add("client_id", clientId);
+        params.add("redirect_uri", redirectUrl);
+        params.add("code", code);
+        params.add("client_secret", secret);
 
         return webClient.post()
                 .uri("/oauth/token")
-                .bodyValue(new TokenRequestValue("authorization_code", clientId, redirectUrl, code))
+                .header("")
+                .body(BodyInserters.fromFormData(params))
                 .retrieve()
                 .bodyToMono(OauthToken.class)
                 .block();
-    }
-
-
-    /**
-     * API 요청에 사용할 객체
-     */
-    @Data
-    static class TokenRequestValue {
-        private String grant_type;
-        private String client_id;
-        private String redirect_uri;
-        private String code;
-
-        public TokenRequestValue(String grant_type, String client_id, String redirect_uri, String code) {
-            this.grant_type = grant_type;
-            this.client_id = client_id;
-            this.redirect_uri = redirect_uri;
-            this.code = code;
-        }
     }
 
     /**
