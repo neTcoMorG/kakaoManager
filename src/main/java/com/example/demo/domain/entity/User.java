@@ -8,6 +8,7 @@ import lombok.Data;
 @Table(name = "MEMBER")
 public class User {
 
+    protected  User() {}
     public User(String accessToken, String refreshToken, String uuid, String nickname, String email, String profileImageUrl) {
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;

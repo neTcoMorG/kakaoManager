@@ -1,5 +1,6 @@
 package com.example.demo.domain.service.auth;
 
+import com.example.demo.domain.entity.User;
 import com.example.demo.domain.repository.UserRepository;
 import com.example.demo.domain.service.auth.json.UserProfile;
 import lombok.Data;
@@ -7,12 +8,13 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
+
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -26,7 +28,7 @@ public class AuthService {
     private final UserRepository userRepository;
 
     /**
-     * 카카오톡 oAuth 로그인 서비스
+     * 카카오톡 oAuth를 이용한 로그인/회원가입 메소드
      * <p>
      *  카카오 oAuth2 API를 이용해 로그인/회원가입을 처리   
      * </p>
@@ -35,12 +37,23 @@ public class AuthService {
      * @param code : Resource owner 로 부터 받은 code
      * @return 유저 엔티티
      */
-    public UserProfile login (String code) {
-        return getProfile(getToken(code).getAccess_token());
+    public User login (String code) {
+        OauthToken token = getToken(code);
+        UserProfile userProfile = getProfile(token.getAccess_token());
+        Optional<User> userOptional = userRepository.findByUuid(userProfile.getId());
+
+        if (userOptional.isPresent()) {
+            return userOptional.get();
+        }
+
+        return userRepository.save(new User(token.getAccess_token(), token.getRefresh_token(),
+                userProfile.getId(), userProfile.getKakao_account().getProfile().getNickname(),
+                userProfile.getKakao_account().getEmail(),
+                userProfile.getKakao_account().getProfile().getThumbnail_image_url()));
     }
 
     /**
-     * Access_token 가져오기
+     * Access_token 가져오는 메소드
      * 
      * <p>code를 가지고 access_token을 가져옴</p>
      *

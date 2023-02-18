@@ -6,7 +6,7 @@ import lombok.Data;
 @Data
 public class UserProfile {
 
-    private String uuid;
+    private String id;
     private KakaoAccount kakao_account;
 
 }
