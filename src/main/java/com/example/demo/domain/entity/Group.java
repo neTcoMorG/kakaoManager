@@ -3,20 +3,31 @@ package com.example.demo.domain.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 @Entity
 @Table(name = "CUSTOM_GROUP")
 public class Group {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY) private Long groupId;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID")
-    private User user;
+  @Id
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  private Long groupId;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "FRIEND_ID")
-    private Friend friend;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "USER_ID")
+  private User user;
 
-    @Column(name = "GROUP_NAME")  private String name;
-    @Column(name = "GROUP_UUID") private String uuid;
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "FRIEND_ID")
+  private Friend friend;
+
+  @Column(name = "GROUP_NAME")
+  private String name;
+
+  @Column(name = "GROUP_UUID")
+  private String uuid;
+
+  @OneToMany(mappedBy = "group")
+  private List<GroupMember> groupMemberList;
 }
