@@ -3,6 +3,7 @@ package com.example.demo.web.controller.api;
 import com.example.demo.domain.dto.GroupDto;
 import com.example.demo.domain.entity.User;
 import com.example.demo.domain.service.group.GroupService;
+import com.example.demo.domain.service.group.dto.GroupAddFriendDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,12 @@ public class GroupApiController {
         return ResponseEntity.ok(groupService.get(user));
     }
 
+    @PostMapping("/add")
+    public HttpEntity<?> addMember (@RequestBody GroupAddFriendDto data) {
+        groupService.addMember(data);
+        return ResponseEntity.ok("OK");
+    }
+
     @PostMapping
     public HttpEntity<?> createGroup (@RequestBody GroupDto groupData, User user) {
         groupService.create(user, groupData);
@@ -40,17 +47,9 @@ public class GroupApiController {
         return ResponseEntity.ok().build();
     }
 
-    /**
-     * <h1>존재하지 않는 그룹을 삭제하는 예외를 처리하기 위한 핸들러</h1>
-     *
-     * @author joyoungjun
-     * <p>
-     *     DELETE /api/group/{id} 로 요청이 왔을 시 없는 그룹을 삭제하려는 예외가 생기면 <br/>
-     *     사용자에게 BAD_REQUEST (400) 응답코드를 반환합니다.
-     * </p>
-     */
+
     @ExceptionHandler(NoSuchElementException.class)
-    public HttpEntity<?> deleteGroupExceptionHandler (RuntimeException ex) {
+    public HttpEntity<?> noSuchElementExceptionHandler (RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 }

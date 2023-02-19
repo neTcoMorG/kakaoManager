@@ -3,6 +3,7 @@ package com.example.demo.domain.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.Arrays;
 import java.util.List;
 
 @Data
@@ -18,13 +19,16 @@ public class User {
     private String email;
     private String profileImageUrl;
 
+    private String scope;
+
     @OneToMany(mappedBy = "user")
     private List<Friend> friendList;
 
     @OneToMany(mappedBy = "user")
     private List<Group> groupList;
     protected  User() {}
-    public User(String accessToken, String refreshToken, String uuid, String nickname, String email, String profileImageUrl) {
+    public User(String scope, String accessToken, String refreshToken, String uuid, String nickname, String email, String profileImageUrl) {
+        this.scope = scope;
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.uuid = uuid;
@@ -32,4 +36,6 @@ public class User {
         this.email = email;
         this.profileImageUrl = profileImageUrl;
     }
+
+    public List<String> getPermissions () { return Arrays.asList(scope.split(" ")); }
 }

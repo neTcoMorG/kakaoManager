@@ -15,9 +15,10 @@ spring:
     username: sa
     password:
     driver-class-name: org.h2.Driver
+
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
       # show_sql: true
@@ -25,9 +26,7 @@ spring:
 
 oauth:
   kakao:
-    client_id: #
-    secret_id: #
+    client_id: d02cc26dfed4b9e8dfb9e49a50b90ff3
+    secret_id: apc3QffqOdNXbVsPo25b3tUwU0p3uyVc
     redirect_url: http://localhost:8080/auth/kakao
 
-jwt:
-  key: #

@@ -67,5 +67,4 @@ public class KakaoAuthService {
                 .bodyToMono(UserProfile.class)
                 .block();
     }
-
 }
