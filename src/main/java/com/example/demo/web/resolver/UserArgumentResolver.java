@@ -27,7 +27,6 @@ public class UserArgumentResolver implements HandlerMethodArgumentResolver {
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) throws Exception {
         HttpServletRequest request = (HttpServletRequest) webRequest.getNativeRequest();
         String header = request.getHeader(HttpHeaders.AUTHORIZATION);
-
         if (header == null) { throw new Exception(); }
         Claims parse = JwtProvider.parse(header);
         return userRepository.findByUuid(parse.get("uuid").toString()).orElseThrow();

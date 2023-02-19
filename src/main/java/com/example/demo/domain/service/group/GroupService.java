@@ -19,4 +19,9 @@ public class GroupService {
                 dto.getName()));
     }
 
+    public void delete (Long id) throws RuntimeException {
+        Group group = groupRepository.findById(id).orElseThrow();
+        groupRepository.delete(group);
+    }
+
 }
