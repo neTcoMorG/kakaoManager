@@ -7,7 +7,6 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class GroupDto {
 
-    private String uuid;
     private String name;
 
 }
