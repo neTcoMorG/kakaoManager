@@ -9,10 +9,10 @@ public class GroupMember {
   @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "GROUP_ID")
   private Group group;
-  @ManyToOne
+  @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "FRIEND_ID")
   private Friend friend;
 }

@@ -6,10 +6,12 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Header;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.Duration;
 import java.util.Date;
 
+@Slf4j
 public class JwtProvider {
 
     private final static String KEY = "helloworld4522!@#$";
@@ -28,8 +30,9 @@ public class JwtProvider {
     }
 
     public static Claims parse (String requestHeader) throws Exception {
-        if (requestHeader == null || requestHeader.startsWith("Bearer ")) { throw new Exception("[JwtProvider] 유효하지 않은 토큰 형식"); }
-        String extractToken = requestHeader.substring("Bearer ".length());
+        if (requestHeader == null || !requestHeader.split(" ")[0].equals("Bearer")) { throw new Exception("[JwtProvider] 유효하지 않은 토큰 형식"); }
+        String extractToken = requestHeader.split(" ")[1];
+        log.info("extractToken: " + extractToken);
 
         return Jwts.parser()
                 .setSigningKey(KEY)

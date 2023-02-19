@@ -19,19 +19,19 @@ public class GroupApiController {
     private final GroupService groupService;
 
     /**
-     * getAll : GET /group 으로 요청이 들어왔을 시 현재 사용자가 만든 모든 그룹을 정보를 반환
-     * @param user
-     * @return 그룹정보
+     * GET /api/group 요청이 들어왔을시 현재 사용자가 만든 모든 그룹을 정보를 반환
+     *
+     * @param user 요청을 보낸 사용자
      */
     @GetMapping
-    public HttpEntity<?> get(User user) {
-        return ResponseEntity.ok(user.getGroupList());
+    public HttpEntity<?> get (User user) {
+        return ResponseEntity.ok(groupService.get(user));
     }
 
     @PostMapping
-    public HttpEntity<?> createGroup (GroupDto groupDto, User user) {
-        groupService.create(user, groupDto);
-        return ResponseEntity.ok("서비스 준비중");
+    public HttpEntity<?> createGroup (@RequestBody GroupDto groupData, User user) {
+        groupService.create(user, groupData);
+        return ResponseEntity.ok("OK");
     }
 
     @DeleteMapping("/{id}")
@@ -40,6 +40,15 @@ public class GroupApiController {
         return ResponseEntity.ok().build();
     }
 
+    /**
+     * <h1>존재하지 않는 그룹을 삭제하는 예외를 처리하기 위한 핸들러</h1>
+     *
+     * @author joyoungjun
+     * <p>
+     *     DELETE /api/group/{id} 로 요청이 왔을 시 없는 그룹을 삭제하려는 예외가 생기면 <br/>
+     *     사용자에게 BAD_REQUEST (400) 응답코드를 반환합니다.
+     * </p>
+     */
     @ExceptionHandler(NoSuchElementException.class)
     public HttpEntity<?> deleteGroupExceptionHandler (RuntimeException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
