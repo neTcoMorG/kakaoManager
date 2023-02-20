@@ -4,15 +4,11 @@ import com.example.demo.domain.dto.GroupDto;
 import com.example.demo.domain.entity.User;
 import com.example.demo.domain.service.group.GroupService;
 import com.example.demo.domain.service.group.dto.GroupAddFriendDto;
-import com.example.demo.web.controller.exception.PermissionException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.NoSuchElementException;
 
 @RestController
 @RequiredArgsConstructor
@@ -56,13 +52,4 @@ public class GroupApiController {
         return ResponseEntity.ok().build();
     }
 
-    @ExceptionHandler(PermissionException.class)
-    public HttpEntity<?> permissionExceptionHandler (RuntimeException ex) {
-        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
-    }
-
-    @ExceptionHandler(NoSuchElementException.class)
-    public HttpEntity<?> noSuchElementExceptionHandler (RuntimeException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-    }
 }

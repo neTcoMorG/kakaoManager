@@ -11,7 +11,7 @@ import com.example.demo.domain.repository.GroupRepository;
 import com.example.demo.domain.service.group.dto.GroupAddFriendDto;
 import com.example.demo.domain.service.group.dto.GroupResponseDto;
 import com.example.demo.domain.service.group.dto.GroupResponseFriendDto;
-import com.example.demo.web.controller.exception.PermissionException;
+import com.example.demo.web.controller.exception.custom.PermissionException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
