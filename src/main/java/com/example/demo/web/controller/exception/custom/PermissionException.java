@@ -1,6 +1,6 @@
 package com.example.demo.web.controller.exception.custom;
 
-public class PermissionException extends RuntimeException {
+public class PermissionException extends Exception {
     public PermissionException() {
         super();
     }

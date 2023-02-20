@@ -53,7 +53,7 @@ public class GroupService {
         return groupRepository.save(new Group(user, dto.getName()));
     }
 
-    public void addMember (GroupAddFriendDto dto, User user) throws RuntimeException {
+    public void addMember (GroupAddFriendDto dto, User user) throws Exception {
         Group group = groupRepository.findById(Long.parseLong(dto.getGroup_id())).orElseThrow();
         isValid(user, group);
 
@@ -69,7 +69,7 @@ public class GroupService {
     }
 
     @Transactional
-    public void delete (Long id, User user) throws RuntimeException {
+    public void delete (Long id, User user) throws Exception {
         Group group = groupRepository.findById(id).orElseThrow();
         isValid(user, group);
 
@@ -77,7 +77,7 @@ public class GroupService {
     }
 
     @Transactional
-    public void modify (Long id, GroupDto groupDto, User user) throws RuntimeException {
+    public void modify (Long id, GroupDto groupDto, User user) throws Exception {
         Group findGroup = groupRepository.findById(id).orElseThrow();
         isValid(user, findGroup);
 
@@ -91,7 +91,7 @@ public class GroupService {
      * @param group
      * @throws Exception user가 group의 주인이 아닐 때 발생
      */
-    private void isValid (User user, Group group) throws RuntimeException {
+    private void isValid (User user, Group group) throws Exception {
         if (!group.getUser().equals(user)) throw new PermissionException();
     }
 }

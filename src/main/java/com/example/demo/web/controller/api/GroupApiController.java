@@ -27,7 +27,7 @@ public class GroupApiController {
     }
 
     @PostMapping("/add")
-    public HttpEntity<?> addMember (@RequestBody GroupAddFriendDto data, User user) {
+    public HttpEntity<?> addMember (@RequestBody GroupAddFriendDto data, User user) throws Exception {
         groupService.addMember(data, user);
         return ResponseEntity.ok("OK");
     }
@@ -39,15 +39,15 @@ public class GroupApiController {
     }
 
     @PutMapping("/{group_id}")
-    public HttpEntity<?> modifyGroup (@PathVariable(name = "group_id") Long id, @RequestBody GroupDto groupDto, User user) {
+    public HttpEntity<?> modifyGroup (@PathVariable(name = "group_id") Long id, @RequestBody GroupDto groupDto, User user)
+            throws Exception {
         groupService.modify(id, groupDto, user);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
-    public HttpEntity<?> deleteGroup (@PathVariable Long id, User user) {
+    public HttpEntity<?> deleteGroup (@PathVariable Long id, User user) throws Exception {
         groupService.delete(id, user);
         return ResponseEntity.ok().build();
     }
-
 }
