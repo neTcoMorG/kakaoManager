@@ -46,7 +46,7 @@ public class KakaoMessageService {
   }
 
 
-  private static void messageSendApiCall(User who, SendMessageRequest sendMessageRequest) {
+  private static void messageSendApiCall (User who, SendMessageRequest sendMessageRequest) {
 
     MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
     params.add("receiver_uuids", sendMessageRequest.getReceiver_uuids());

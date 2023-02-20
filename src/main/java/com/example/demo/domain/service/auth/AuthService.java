@@ -40,7 +40,7 @@ public class AuthService {
     public Optional<User> login (String code) {
         OauthToken token = null;
         UserProfile userProfile = null;
-
+        
         token = kakaoService.getAuthService().getToken(code);
         userProfile = kakaoService.getAuthService().getProfile(token.getAccess_token());
 

@@ -14,9 +14,12 @@ import java.util.NoSuchElementException;
 @RestControllerAdvice
 public class CommonExceptionHandler {
 
+    /*
+        UserArgumentResolver 에서 없는 사용자를 찾을 때 발생되는 예외를 처리
+     */
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(AuthorizationException.class)
-    public void authorizationExceptionHandler (Exception ex) { log.info("CommonExceptionHandler was called"); }
+    public void authorizationExceptionHandler (Exception ex) { }
 
     /*
         서비스 계층에서 발생할 수 있는 권한 예외를 처리하기 위한 핸들러입니다.
@@ -24,7 +27,7 @@ public class CommonExceptionHandler {
     */
     @ResponseStatus(HttpStatus.FORBIDDEN)
     @ExceptionHandler(PermissionException.class)
-    public void permissionExceptionHandler (RuntimeException ex) { log.info("CommonExceptionHandler was called"); }
+    public void permissionExceptionHandler (RuntimeException ex) { }
 
     /*
         서비스 계층에서 없는 리소스 작업에 대한 예외를 처리하기 위한 핸들러입니다
@@ -32,5 +35,5 @@ public class CommonExceptionHandler {
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(NoSuchElementException.class)
-    public void noSuchElementExceptionHandler (RuntimeException ex) { log.info(ex.getCause() + " CommonExceptionHandler was called"); }
+    public void noSuchElementExceptionHandler (RuntimeException ex) { }
 }

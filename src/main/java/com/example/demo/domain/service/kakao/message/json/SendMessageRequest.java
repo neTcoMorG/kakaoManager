@@ -2,10 +2,6 @@ package com.example.demo.domain.service.kakao.message.json;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-
-import java.util.List;
 
 @Data
 @AllArgsConstructor

@@ -15,6 +15,4 @@ public class KakaoService {
     private final KakaoAuthService authService;
     private final KakaoMessageService messageService;
     private final KakaoFriendService friendService;
-
-
 }
