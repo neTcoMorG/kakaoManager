@@ -4,6 +4,7 @@ import com.example.demo.domain.dto.GroupDto;
 import com.example.demo.domain.entity.User;
 import com.example.demo.domain.service.group.GroupService;
 import com.example.demo.domain.service.group.dto.GroupAddFriendDto;
+import com.example.demo.web.controller.exception.PermissionException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
@@ -31,8 +32,8 @@ public class GroupApiController {
     }
 
     @PostMapping("/add")
-    public HttpEntity<?> addMember (@RequestBody GroupAddFriendDto data) {
-        groupService.addMember(data);
+    public HttpEntity<?> addMember (@RequestBody GroupAddFriendDto data, User user) {
+        groupService.addMember(data, user);
         return ResponseEntity.ok("OK");
     }
 
@@ -44,15 +45,20 @@ public class GroupApiController {
 
     @Transactional
     @PutMapping("/{group_id}")
-    public HttpEntity<?> modifyGroup (@PathVariable(name = "group_id") Long id, @RequestBody GroupDto groupDto) {
-        groupService.modify(id, groupDto);
+    public HttpEntity<?> modifyGroup (@PathVariable(name = "group_id") Long id, @RequestBody GroupDto groupDto, User user) {
+        groupService.modify(id, groupDto, user);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
-    public HttpEntity<?> deleteGroup (@PathVariable Long id) {
-        groupService.delete(id);
+    public HttpEntity<?> deleteGroup (@PathVariable Long id, User user) {
+        groupService.delete(id, user);
         return ResponseEntity.ok().build();
+    }
+
+    @ExceptionHandler(PermissionException.class)
+    public HttpEntity<?> permissionExceptionHandler (RuntimeException ex) {
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
 
     @ExceptionHandler(NoSuchElementException.class)
