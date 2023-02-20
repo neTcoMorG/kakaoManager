@@ -17,7 +17,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/message")
-public class MassageApiController {
+public class MessageApiController {
   private final KakaoService kakaoService;
   private final FriendRepository friendRepository;
   private final ModelMapper modelMapper;
