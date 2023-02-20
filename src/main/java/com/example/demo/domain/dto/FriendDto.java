@@ -6,5 +6,6 @@ import lombok.Data;
 public class FriendDto {
   private String nickname;
   private String profileImageUrl;
+  private String uuid;
 
 }
