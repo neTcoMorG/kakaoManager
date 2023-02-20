@@ -3,6 +3,7 @@ package com.example.demo.domain.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -21,8 +22,8 @@ public class User {
 
     private String scope;
 
-    @OneToMany(mappedBy = "user")
-    private List<Friend> friendList;
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    private List<Friend> friendList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
     private List<Group> groupList;

@@ -3,6 +3,7 @@ package com.example.demo.domain.entity;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -20,7 +21,7 @@ public class Friend {
     private String nickname;
 
     @OneToMany(mappedBy = "friend")
-    private List<GroupMember> groupMemberList;
+    private List<GroupMember> groupMemberList = new ArrayList<>();
 
     protected Friend() {}
     public Friend(User user, String uuid, String profileImageUrl, String nickname) {

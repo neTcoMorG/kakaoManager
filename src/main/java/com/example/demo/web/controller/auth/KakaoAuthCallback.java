@@ -23,7 +23,6 @@ public class KakaoAuthCallback {
     @Value("${oauth.kakao.client_id}") private String clientId;
     @Value("${oauth.kakao.redirect_url}") private String redirect;
 
-
     /**
      * 카카오 OAuth 처리 컨트롤러
      *
