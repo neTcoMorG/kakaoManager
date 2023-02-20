@@ -4,14 +4,10 @@ import com.example.demo.domain.dto.GroupDto;
 import com.example.demo.domain.entity.User;
 import com.example.demo.domain.service.group.GroupService;
 import com.example.demo.domain.service.group.dto.GroupAddFriendDto;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.NoSuchElementException;
 
 @RestController
 @RequiredArgsConstructor
@@ -31,8 +27,8 @@ public class GroupApiController {
     }
 
     @PostMapping("/add")
-    public HttpEntity<?> addMember (@RequestBody GroupAddFriendDto data) {
-        groupService.addMember(data);
+    public HttpEntity<?> addMember (@RequestBody GroupAddFriendDto data, User user) throws Exception {
+        groupService.addMember(data, user);
         return ResponseEntity.ok("OK");
     }
 
@@ -42,21 +38,16 @@ public class GroupApiController {
         return ResponseEntity.ok("OK");
     }
 
-    @Transactional
     @PutMapping("/{group_id}")
-    public HttpEntity<?> modifyGroup (@PathVariable(name = "group_id") Long id, @RequestBody GroupDto groupDto) {
-        groupService.modify(id, groupDto);
+    public HttpEntity<?> modifyGroup (@PathVariable(name = "group_id") Long id, @RequestBody GroupDto groupDto, User user)
+            throws Exception {
+        groupService.modify(id, groupDto, user);
         return ResponseEntity.ok().build();
     }
 
     @DeleteMapping("/{id}")
-    public HttpEntity<?> deleteGroup (@PathVariable Long id) {
-        groupService.delete(id);
+    public HttpEntity<?> deleteGroup (@PathVariable Long id, User user) throws Exception {
+        groupService.delete(id, user);
         return ResponseEntity.ok().build();
-    }
-
-    @ExceptionHandler(NoSuchElementException.class)
-    public HttpEntity<?> noSuchElementExceptionHandler (RuntimeException ex) {
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
     }
 }
