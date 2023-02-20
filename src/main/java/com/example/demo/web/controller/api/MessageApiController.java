@@ -22,7 +22,7 @@ public class MessageApiController {
   private final FriendRepository friendRepository;
   private final ModelMapper modelMapper;
   @GetMapping("/friend")
-  public List<FriendDto> getFriendList(User user) {
+  public List<FriendDto> getFriendList (User user) {
     List<Friend> friendList = friendRepository.findByUserId(user.getId());
     List<FriendDto> result = modelMapper.map(friendList, new TypeToken<List<FriendDto>>() {}.getType());
 
@@ -32,6 +32,4 @@ public class MessageApiController {
 
     return result;
   }
-
-
 }

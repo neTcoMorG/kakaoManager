@@ -69,4 +69,9 @@ public class GroupService {
         Group group = groupRepository.findById(id).orElseThrow();
         groupRepository.delete(group);
     }
+
+    public void modify (Long id, GroupDto groupDto) throws RuntimeException {
+        Group findGroup = groupRepository.findById(id).orElseThrow();
+        findGroup.setName(groupDto.getName());
+    }
 }

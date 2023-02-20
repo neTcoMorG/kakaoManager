@@ -4,6 +4,7 @@ import com.example.demo.domain.dto.GroupDto;
 import com.example.demo.domain.entity.User;
 import com.example.demo.domain.service.group.GroupService;
 import com.example.demo.domain.service.group.dto.GroupAddFriendDto;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpStatus;
@@ -41,12 +42,18 @@ public class GroupApiController {
         return ResponseEntity.ok("OK");
     }
 
+    @Transactional
+    @PutMapping("/{group_id}")
+    public HttpEntity<?> modifyGroup (@PathVariable(name = "group_id") Long id, @RequestBody GroupDto groupDto) {
+        groupService.modify(id, groupDto);
+        return ResponseEntity.ok().build();
+    }
+
     @DeleteMapping("/{id}")
     public HttpEntity<?> deleteGroup (@PathVariable Long id) {
         groupService.delete(id);
         return ResponseEntity.ok().build();
     }
-
 
     @ExceptionHandler(NoSuchElementException.class)
     public HttpEntity<?> noSuchElementExceptionHandler (RuntimeException ex) {
