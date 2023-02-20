@@ -20,11 +20,10 @@ import java.util.List;
 public class MassageApiController {
   private final KakaoService kakaoService;
   private final FriendRepository friendRepository;
-  @GetMapping("/friendlist")
+  private final ModelMapper modelMapper;
+  @GetMapping("/friend")
   public List<FriendDto> getFriendList(User user) {
     List<Friend> friendList = friendRepository.findByUserId(user.getId());
-
-    ModelMapper modelMapper = new ModelMapper();
     List<FriendDto> result = modelMapper.map(friendList, new TypeToken<List<FriendDto>>() {}.getType());
 
     for (FriendDto friendDto : result) {
