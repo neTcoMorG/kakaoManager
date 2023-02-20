@@ -4,7 +4,6 @@ import com.example.demo.domain.dto.GroupDto;
 import com.example.demo.domain.entity.User;
 import com.example.demo.domain.service.group.GroupService;
 import com.example.demo.domain.service.group.dto.GroupAddFriendDto;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
@@ -39,7 +38,6 @@ public class GroupApiController {
         return ResponseEntity.ok("OK");
     }
 
-    @Transactional
     @PutMapping("/{group_id}")
     public HttpEntity<?> modifyGroup (@PathVariable(name = "group_id") Long id, @RequestBody GroupDto groupDto, User user) {
         groupService.modify(id, groupDto, user);

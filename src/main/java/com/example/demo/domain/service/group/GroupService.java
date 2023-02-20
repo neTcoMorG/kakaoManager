@@ -12,6 +12,7 @@ import com.example.demo.domain.service.group.dto.GroupAddFriendDto;
 import com.example.demo.domain.service.group.dto.GroupResponseDto;
 import com.example.demo.domain.service.group.dto.GroupResponseFriendDto;
 import com.example.demo.web.controller.exception.custom.PermissionException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -57,7 +58,6 @@ public class GroupService {
         isValid(user, group);
 
         List<Friend> addFriends = new ArrayList<>();
-
         dto.getFriend_uuid().forEach(uuid -> {
             Friend f = friendRepository.findByUuid(uuid).orElseThrow();
             if (!group.getGroupMemberList().contains(f)) {
@@ -68,6 +68,7 @@ public class GroupService {
         addFriends.forEach(friend -> { groupMemberRepository.save(new GroupMember(group, friend)); });
     }
 
+    @Transactional
     public void delete (Long id, User user) throws RuntimeException {
         Group group = groupRepository.findById(id).orElseThrow();
         isValid(user, group);
@@ -75,6 +76,7 @@ public class GroupService {
         groupRepository.delete(group);
     }
 
+    @Transactional
     public void modify (Long id, GroupDto groupDto, User user) throws RuntimeException {
         Group findGroup = groupRepository.findById(id).orElseThrow();
         isValid(user, findGroup);
