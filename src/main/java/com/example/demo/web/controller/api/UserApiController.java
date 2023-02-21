@@ -1,5 +1,6 @@
 package com.example.demo.web.controller.api;
 
+import com.example.demo.domain.dto.FriendDto;
 import com.example.demo.domain.entity.Friend;
 import com.example.demo.domain.entity.User;
 import lombok.AllArgsConstructor;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -25,8 +27,11 @@ public class UserApiController {
     }
 
     @GetMapping("/friend")
-    public List<Friend> getFriends (User user) {
-        return user.getFriendList();
+    public List<FriendDto> getFriends (User user) {
+        List<FriendDto> friends = new ArrayList<>();
+        user.getFriendList().forEach(friend -> friends.add(new FriendDto(
+                friend.getNickname(), friend.getProfileImageUrl(), friend.getUuid())));
+        return friends;
     }
 
     @Data
