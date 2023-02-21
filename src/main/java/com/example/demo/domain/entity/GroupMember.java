@@ -19,8 +19,10 @@ public class GroupMember {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "GROUP_ID")
+  @ToString.Exclude
   private Group group;
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "FRIEND_ID")
+  @ToString.Exclude
   private Friend friend;
 }

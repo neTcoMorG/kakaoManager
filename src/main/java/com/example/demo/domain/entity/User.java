@@ -23,11 +23,9 @@ public class User {
     private String scope;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
-    @ToString.Exclude
     private List<Friend> friendList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
-    @ToString.Exclude
     private List<Group> groupList;
 
     public User() {

@@ -14,6 +14,7 @@ public class Friend {
 
     @JoinColumn(name = "user_id")
     @ManyToOne(fetch = FetchType.LAZY)
+    @ToString.Exclude
     private User user;      // 친구의 주인
     
     private String uuid;
@@ -21,7 +22,6 @@ public class Friend {
     private String nickname;
 
     @OneToMany(mappedBy = "friend")
-    @ToString.Exclude
     private List<GroupMember> groupMemberList = new ArrayList<>();
 
     protected Friend() {}

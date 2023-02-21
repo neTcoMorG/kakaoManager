@@ -23,12 +23,12 @@ public class Group {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
+    @ToString.Exclude
     private User user;
 
     @Column(name = "GROUP_NAME")
     private String name;
 
     @OneToMany(mappedBy = "group")
-    @ToString.Exclude
     private List<GroupMember> groupMemberList;
 }
