@@ -1,11 +1,14 @@
 package com.example.demo.domain.service.kakao.message.json.list;
+import com.example.demo.domain.service.kakao.message.json.common.SendMessageParam;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
-public class SendMessageListParam {
-  List<String> receiver;
+public class SendMessageListParam extends SendMessageParam {
   ListObject listObject;
+
+  public SendMessageListParam(Long groupId, ListObject listObject) {
+    super.groupId = groupId;
+    this.listObject = listObject;
+  }
 }
 

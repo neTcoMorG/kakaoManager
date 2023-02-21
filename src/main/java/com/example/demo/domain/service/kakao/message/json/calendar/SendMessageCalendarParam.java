@@ -1,11 +1,14 @@
 package com.example.demo.domain.service.kakao.message.json.calendar;
+import com.example.demo.domain.service.kakao.message.json.common.SendMessageParam;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
-public class SendMessageCalendarParam {
-  List<String> receiver;
+public class SendMessageCalendarParam extends SendMessageParam {
   CalendarObject calendarObject;
+
+  public SendMessageCalendarParam(Long groupId, CalendarObject calendarObject) {
+    super.groupId = groupId;
+    this.calendarObject = calendarObject;
+  }
 }
 

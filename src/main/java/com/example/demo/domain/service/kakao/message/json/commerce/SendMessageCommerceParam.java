@@ -1,11 +1,14 @@
 package com.example.demo.domain.service.kakao.message.json.commerce;
+import com.example.demo.domain.service.kakao.message.json.common.SendMessageParam;
 import lombok.Data;
 
-import java.util.List;
-
 @Data
-public class SendMessageCommerceParam {
-  List<String> receiver;
+public class SendMessageCommerceParam extends SendMessageParam {
   CommerceObject commerceObject;
+
+  public SendMessageCommerceParam(Long groupId, CommerceObject commerceObject) {
+    super.groupId = groupId;
+    this.commerceObject = commerceObject;
+  }
 }
 
