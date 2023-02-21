@@ -27,11 +27,10 @@ public class KakaoMessageService {
 
   /**
    * receiver 에게 message 전송.
-   * 재사용을 위해 message 타입을 Object 로 함.
+   * 재사용을 위해 message 타입을 MessageObject 로 함.
    * 따라서 Controller 단에서 입력 값에 대한 검증이 반드시 필요.
    * @param receiver : 메세지 전송 대상의 uuid List
    * @param message : 전송할 메세지 내용.
-   * @throws RuntimeException
    */
   public void sendMessage(User who, List<String> receiver, MessageObject message) throws RuntimeException {
     List<String> receiver_uuid = new ArrayList<>();
