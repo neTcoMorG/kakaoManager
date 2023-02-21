@@ -1,9 +1,12 @@
 package com.example.demo.domain.service.kakao.message;
 
+import com.example.demo.domain.entity.Group;
 import com.example.demo.domain.entity.User;
+import com.example.demo.domain.repository.GroupRepository;
 import com.example.demo.domain.service.kakao.message.json.SendMessageRequest;
 import com.example.demo.domain.service.kakao.message.json.SendMessageResponse;
 import com.example.demo.domain.service.kakao.message.json.common.MessageObject;
+import com.example.demo.domain.service.kakao.message.json.common.SendMessageParam;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -18,36 +21,51 @@ import reactor.core.publisher.Mono;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class KakaoMessageService {
   private static final int MAXIMUM_RECEIVER_PER_ONETIME = 5;
+  private final GroupRepository groupRepository;
   private final Gson gson;
 
   /**
-   * receiver 에게 message 전송.
-   * 재사용을 위해 message 타입을 MessageObject 로 함.
-   * 따라서 Controller 단에서 입력 값에 대한 검증이 반드시 필요.
-   * @param receiver : 메세지 전송 대상의 uuid List
-   * @param message : 전송할 메세지 내용.
+   * SendMessageParam 의 GroupId 에 해당하는
+   * 전원에게 메세지를 보냄.
    */
-  public void sendMessage(User who, List<String> receiver, MessageObject message) throws RuntimeException {
+  public void sendMessage(User user, SendMessageParam sendMessageParam, MessageObject messageObject, String template){
+    Long groupId = sendMessageParam.getGroupId();
+    Group group = groupRepository.findById(groupId).orElseThrow();
+
+    validation(user, messageObject,group, template);
+
+    List<SendMessageRequest> sendMessageRequestList = getSendMessageRequestList(group, messageObject);
+    for (SendMessageRequest sendMessageRequest : sendMessageRequestList) {
+      messageSendApiCall(user, sendMessageRequest);
+    }
+  }
+
+  private List<SendMessageRequest> getSendMessageRequestList(Group group, MessageObject message) {
+    List<String> receiver = group.getGroupMemberList().stream()
+                    .map(groupMember -> groupMember.getFriend().getUuid())
+                    .toList();
+
     List<String> receiver_uuid = new ArrayList<>();
+    List<SendMessageRequest> result = new ArrayList<>();
     for (int i = 0; i < receiver.size(); i++) {
       receiver_uuid.add(receiver.get(i));
 
       if (receiver_uuid.size() >= MAXIMUM_RECEIVER_PER_ONETIME || i == receiver.size() - 1) {
         SendMessageRequest sendMessageRequest = new SendMessageRequest(gson.toJson(receiver_uuid), gson.toJson(message));
-        messageSendApiCall(who, sendMessageRequest);
+        result.add(sendMessageRequest);
         receiver_uuid.clear();
       }
     }
+    return result;
   }
 
-
-  private void messageSendApiCall (User who, SendMessageRequest sendMessageRequest) {
-
+  private void messageSendApiCall(User who, SendMessageRequest sendMessageRequest) {
     MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
     params.add("receiver_uuids", sendMessageRequest.getReceiver_uuids());
     params.add("template_object", sendMessageRequest.getTemplate_object());
@@ -65,5 +83,21 @@ public class KakaoMessageService {
                     response -> Mono.error(RuntimeException::new))
             .bodyToMono(SendMessageResponse.class)
             .block();
+  }
+
+  private void validation(User user, MessageObject messageObject, Group group, String template){
+    commonValidation(user, messageObject, group, template);
+
+//    switch ()
+  }
+
+  /**
+   * 공통검증
+   * 1. 호출된 컨트롤러와 MessageObject 의 object_type 파라미터가 일치하는가?
+   * 2. 요청한 유저가 group 의 소유자인가?
+   */
+  private void commonValidation(User user, MessageObject messageObject, Group group, String template){
+    if (!messageObject.object_type.equals(template)) throw new IllegalArgumentException("옳바르지 않은 템플릿입니다.");
+    if (group.getUser() != user) throw new IllegalCallerException("해당 그룹의 소유자가 아닙니다.");
   }
 }
