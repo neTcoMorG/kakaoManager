@@ -1,7 +1,7 @@
 package com.example.demo.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 
@@ -29,7 +29,6 @@ public class Group {
     private String name;
 
     @OneToMany(mappedBy = "group")
+    @ToString.Exclude
     private List<GroupMember> groupMemberList;
-
-
 }

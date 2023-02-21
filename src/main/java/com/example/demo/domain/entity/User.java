@@ -1,7 +1,7 @@
 package com.example.demo.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -23,11 +23,16 @@ public class User {
     private String scope;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @ToString.Exclude
     private List<Friend> friendList = new ArrayList<>();
 
     @OneToMany(mappedBy = "user")
+    @ToString.Exclude
     private List<Group> groupList;
-    protected  User() {}
+
+    public User() {
+    }
+
     public User(String scope, String accessToken, String refreshToken, String uuid, String nickname, String email, String profileImageUrl) {
         this.scope = scope;
         this.accessToken = accessToken;

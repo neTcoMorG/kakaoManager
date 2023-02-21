@@ -1,7 +1,7 @@
 package com.example.demo.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 @Data
 @Entity

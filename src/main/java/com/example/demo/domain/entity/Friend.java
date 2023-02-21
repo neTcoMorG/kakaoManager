@@ -1,7 +1,7 @@
 package com.example.demo.domain.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,6 +21,7 @@ public class Friend {
     private String nickname;
 
     @OneToMany(mappedBy = "friend")
+    @ToString.Exclude
     private List<GroupMember> groupMemberList = new ArrayList<>();
 
     protected Friend() {}
