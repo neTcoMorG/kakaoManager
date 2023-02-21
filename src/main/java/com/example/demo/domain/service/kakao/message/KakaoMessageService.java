@@ -34,11 +34,11 @@ public class KakaoMessageService {
    * SendMessageParam 의 GroupId 에 해당하는
    * 전원에게 메세지를 보냄.
    */
-  public void sendMessage(User user, SendMessageParam sendMessageParam, MessageObject messageObject, String template){
+  public void sendMessage(User user, SendMessageParam sendMessageParam, MessageObject messageObject, String template) {
     Long groupId = sendMessageParam.getGroupId();
     Group group = groupRepository.findById(groupId).orElseThrow();
 
-    validation(user, messageObject,group, template);
+    validation(user, messageObject, group, template);
 
     List<SendMessageRequest> sendMessageRequestList = getSendMessageRequestList(group, messageObject);
     for (SendMessageRequest sendMessageRequest : sendMessageRequestList) {
@@ -47,7 +47,8 @@ public class KakaoMessageService {
   }
 
   private List<SendMessageRequest> getSendMessageRequestList(Group group, MessageObject message) {
-    List<String> receiver = group.getGroupMemberList().stream()
+    List<String> receiver = group.getGroupMemberList()
+                    .stream()
                     .map(groupMember -> groupMember.getFriend().getUuid())
                     .toList();
 
@@ -85,19 +86,14 @@ public class KakaoMessageService {
             .block();
   }
 
-  private void validation(User user, MessageObject messageObject, Group group, String template){
-    commonValidation(user, messageObject, group, template);
-
-//    switch ()
-  }
-
   /**
-   * 공통검증
+   * 검증
    * 1. 호출된 컨트롤러와 MessageObject 의 object_type 파라미터가 일치하는가?
    * 2. 요청한 유저가 group 의 소유자인가?
    */
-  private void commonValidation(User user, MessageObject messageObject, Group group, String template){
+  private void validation(User user, MessageObject messageObject, Group group, String template) {
     if (!messageObject.object_type.equals(template)) throw new IllegalArgumentException("옳바르지 않은 템플릿입니다.");
     if (group.getUser() != user) throw new IllegalCallerException("해당 그룹의 소유자가 아닙니다.");
   }
+
 }

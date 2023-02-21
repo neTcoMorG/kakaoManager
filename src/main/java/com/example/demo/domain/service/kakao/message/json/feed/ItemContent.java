@@ -1,5 +1,6 @@
 package com.example.demo.domain.service.kakao.message.json.feed;
 
+import jakarta.validation.Valid;
 import lombok.Data;
 
 import java.util.List;
@@ -11,6 +12,7 @@ public class ItemContent {
   private String title_image_url;
   private String title_image_text;
   private String title_image_category;
+  @Valid
   private List<Item> items;
   private String sum;
   private String sum_op;

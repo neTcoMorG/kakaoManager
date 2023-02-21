@@ -3,14 +3,21 @@ package com.example.demo.domain.service.kakao.message.json.location;
 import com.example.demo.domain.service.kakao.message.json.common.Button;
 import com.example.demo.domain.service.kakao.message.json.common.Content;
 import com.example.demo.domain.service.kakao.message.json.common.MessageObject;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 import java.util.List;
 
 @Data
 public class LocationObject extends MessageObject {
+  @Valid
+  @NotNull(message = "content 는 필수 입력값 입니다.")
   private Content content;
+  @Valid
   private List<Button> buttons;
+  @NotBlank(message = "address 는 필수 입력값 입니다.")
   private String address;
   private String address_title;
 
