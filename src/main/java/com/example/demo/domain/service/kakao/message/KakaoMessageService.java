@@ -3,6 +3,7 @@ package com.example.demo.domain.service.kakao.message;
 import com.example.demo.domain.entity.User;
 import com.example.demo.domain.service.kakao.message.json.SendMessageRequest;
 import com.example.demo.domain.service.kakao.message.json.SendMessageResponse;
+import com.example.demo.domain.service.kakao.message.json.common.MessageObject;
 import com.google.gson.Gson;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
@@ -32,7 +33,7 @@ public class KakaoMessageService {
    * @param message : 전송할 메세지 내용.
    * @throws RuntimeException
    */
-  public void sendMessage(User who, List<String> receiver, Object message) throws RuntimeException {
+  public void sendMessage(User who, List<String> receiver, MessageObject message) throws RuntimeException {
     List<String> receiver_uuid = new ArrayList<>();
     for (int i = 0; i < receiver.size(); i++) {
       receiver_uuid.add(receiver.get(i));
@@ -46,7 +47,7 @@ public class KakaoMessageService {
   }
 
 
-  private static void messageSendApiCall (User who, SendMessageRequest sendMessageRequest) {
+  private void messageSendApiCall (User who, SendMessageRequest sendMessageRequest) {
 
     MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
     params.add("receiver_uuids", sendMessageRequest.getReceiver_uuids());
