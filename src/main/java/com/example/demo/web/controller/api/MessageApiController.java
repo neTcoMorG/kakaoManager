@@ -74,6 +74,4 @@ public class MessageApiController {
     List<Friend> friendList = friendRepository.findByUserId(user.getId());
     return modelMapper.map(friendList, new TypeToken<List<FriendDto>>() {}.getType());
   }
-
-
 }

@@ -19,6 +19,5 @@ public class KakaoFriendService {
                 .retrieve()
                 .bodyToMono(FriendResponse.class)
                 .block();
-
     }
 }

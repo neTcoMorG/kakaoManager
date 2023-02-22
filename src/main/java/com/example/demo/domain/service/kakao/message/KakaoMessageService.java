@@ -27,8 +27,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class KakaoMessageService {
   private static final int MAXIMUM_RECEIVER_PER_ONETIME = 5;
-  private final GroupRepository groupRepository;
   private final Gson gson;
+  private final GroupRepository groupRepository;
 
   /**
    * SendMessageParam 의 GroupId 에 해당하는
