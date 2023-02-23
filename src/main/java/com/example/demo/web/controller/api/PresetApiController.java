@@ -1,28 +1,31 @@
 package com.example.demo.web.controller.api;
 
 import com.example.demo.domain.entity.User;
-import com.example.demo.domain.entity.message.common.MessagePreset;
 import com.example.demo.domain.entity.message.feed.FeedMessagePreset;
-import com.example.demo.domain.repository.MessagePresetRepository;
+import com.example.demo.domain.service.kakao.message.json.feed.FeedObject;
+import com.example.demo.domain.service.kakao.preset.MessagePresetService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-@RestController
+import java.util.List;
+
 @RequiredArgsConstructor
+@RestController
 @RequestMapping("/api/preset")
 public class PresetApiController {
-  private final MessagePresetRepository messagePresetRepository;
+  private final MessagePresetService messagePresetService;
 
-  @PostMapping("/create")
-  public void createPreset(User user, @RequestBody FeedMessagePreset feedMessagePreset) {
+  @PostMapping("/feed/save")
+  public HttpEntity<?> savePreset(User user, @RequestBody FeedMessagePreset feedMessagePreset) {
     feedMessagePreset.setUser(user);
-    feedMessagePreset.setName("test");
-    messagePresetRepository.save(feedMessagePreset);
-    System.out.println();
+    messagePresetService.savePreset(feedMessagePreset, "feed");
+    return ResponseEntity.ok().build();
   }
 
-
+  @GetMapping("/feed/list")
+  public List<FeedObject> getFeedPreset(User user) {
+    return messagePresetService.getPresetList(user.getId());
+  }
 }

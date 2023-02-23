@@ -1,10 +1,11 @@
 package com.example.demo.domain.entity.message.common;
 
-import com.example.demo.domain.entity.message.feed.FeedMessagePreset;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 @Entity
 public class Content {
   @Id
@@ -22,6 +23,6 @@ public class Content {
   @Column(name = "image_height")
   private Long imageHeight;
 
-  @OneToOne(mappedBy = "content")
+  @OneToOne(mappedBy = "content", cascade = CascadeType.ALL)
   private Link link;
 }
